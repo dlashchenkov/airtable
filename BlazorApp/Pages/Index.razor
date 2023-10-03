@@ -1,0 +1,22 @@
+﻿@page "/"
+@using AirtableApiClient;
+
+<div class="grid grid-cols-3 gap-3 p-5 bg-cyan-100">
+    @foreach (string item in Data)
+    {
+        var str = item.ToUpper().Substring(0, 1) + item.Substring(1);
+        <div class="h-12 bg-white">
+            <div class="flex items-center h-full ml-5">@str</div>
+        </div>
+    }
+</div>
+
+@code {
+    [Inject]
+    public IAirtableService AService { get; set; } = default!;
+    public List<string> Data { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        Data = await AService.GetData();
+    }
+}
